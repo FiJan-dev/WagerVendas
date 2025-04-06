@@ -21,9 +21,11 @@ Este projeto utiliza as seguintes tecnologias:
 ```bash
 git clone https://github.com/seu-usuario/WagerVendas.git
 cd WagerVendas
+```
 
 ```bash
 docker-compose up --build
+```
 
 Acessar o projeto:
     Frontend: http://localhost:3000
