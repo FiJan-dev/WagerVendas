@@ -1,4 +1,4 @@
-# Projeto Fullstack com Docker
+# Projeto Fullstack WagerVendas
 
 Este projeto utiliza as seguintes tecnologias:
 
@@ -23,10 +23,12 @@ git clone https://github.com/seu-usuario/WagerVendas.git
 cd WagerVendas
 ```
 
+### Criar e iniciar os containers
+
 ```bash
 docker-compose up --build
 ```
 
-Acessar o projeto:
-    Frontend: http://localhost:3000
-    Backend: http://localhost:5000
+### Acessar o projeto
+ - *Frontend:* http://localhost:3000
+ - *Backend:* http://localhost:5000
