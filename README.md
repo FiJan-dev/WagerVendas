@@ -19,9 +19,13 @@ Este projeto utiliza as seguintes tecnologias:
 ### Clonar o repositório
 
 ```bash
-git clone https://github.com/seu-usuario/WagerVendas.git
+git clone https://github.com/FiJan-dev/WagerVendas.git
 cd WagerVendas
 ```
+
+### Configurar variaveis de ambiente
+
+- **Fazer o .env com base no .env.example**
 
 ### Criar e iniciar os containers
 
