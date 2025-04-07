@@ -13,6 +13,7 @@ services:
       - db
     volumes:
       - ./server:/app
+      - /app/node_modules
     restart: always
 
   client:
@@ -24,6 +25,7 @@ services:
       - server
     volumes:
       - ./client:/app
+      - /app/node_modules
     restart: always
 
   db:
