@@ -6,6 +6,8 @@ yarn-error.log*
 
 # dotenv
 .env
+client/.env
+server/.env
 
 # Logs
 logs
