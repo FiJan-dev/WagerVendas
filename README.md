@@ -3,23 +3,33 @@
 ## Descrição
 Aplicativo para vendas de produtos usados, oferecendo um ambiente seguro, focado em adultos
 
+
+
 ## Tecnologias Utilizadas
 - **React + Tailwind CSS** no frontend
 - **Node.js + Express** no backend
 - **MariaDB** como banco de dados
 - **Docker + Docker Compose** para orquestração
 
+
+
 ## Estrutura do Projeto
+
 
 
 ## Protótipo
 
 
+
 ## Integrantes
+
+
 
 ## Status do Projeto
 Em desenvolvimento
 Primeira versão estimada para: XX/XX/XXXX
+
+
 
 ## Como rodar o Projeto
 
