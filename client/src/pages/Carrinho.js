@@ -1,5 +1,4 @@
 const Carrinho = () => {
-  // Itens do carrinho (dados de exemplo)
   const items = [
     { id: 1, name: "Apple Watch", price: 1300.00 },
     { id: 2, name: "Apple Watch", price: 2000.00 }
