@@ -1,63 +1,28 @@
-import React, { useState } from 'react';
-
-function Carrinho() {
-  const [produtos, setProdutos] = useState([
-    { id: 1, nome: 'Produto 1', preco: 100.0, imagem: 'https://via.placeholder.com/150' },
-    { id: 2, nome: 'Produto 2', preco: 200.0, imagem: 'https://via.placeholder.com/150' },
-    { id: 3, nome: 'Produto 3', preco: 300.0, imagem: 'https://via.placeholder.com/150' },
-  ]);
-
-  const removerProduto = (id) => {
-    setProdutos(produtos.filter((produto) => produto.id !== id));
-  };
+const Carrinho = () => {
+  // Itens do carrinho (dados de exemplo)
+  const items = [
+    { id: 1, name: "Apple Watch", price: 1300.00 },
+    { id: 2, name: "Apple Watch", price: 2000.00 }
+  ];
 
   return (
-    <div>
-      <h1>Carrinho</h1>
-      {produtos.length === 0 ? (
-        <p>Seu carrinho está vazio.</p>
-      ) : (
-        <ul style={{ listStyle: 'none', padding: 0 }}>
-          {produtos.map((produto) => (
-            <li
-              key={produto.id}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                marginBottom: '20px',
-                border: '1px solid #ccc',
-                padding: '10px',
-                borderRadius: '5px',
-              }}
-            >
-              <img
-                src={produto.imagem}
-                alt={produto.nome}
-                style={{ width: '100px', height: '100px', marginRight: '20px' }}
-              />
-              <div style={{ flex: 1 }}>
-                <h2>{produto.nome}</h2>
-                <p>Preço: R$ {produto.preco.toFixed(2)}</p>
-              </div>
-              <button
-                onClick={() => removerProduto(produto.id)}
-                style={{
-                  backgroundColor: '#ff4d4d',
-                  color: 'white',
-                  border: 'none',
-                  padding: '10px 15px',
-                  borderRadius: '5px',
-                  cursor: 'pointer',
-                }}
-              >
-                Remover
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
+    <div className="p-4">
+      <h1 className="text-xl font-bold mb-4">Seu Carrinho</h1>
+      
+      <div className="space-y-3">
+        {items.map(item => (
+          <div key={item.id} className="border-b pb-3">
+            <p>{item.name}</p>
+            <p className="text-gray-600">R$ {item.price.toFixed(2)}</p>
+          </div>
+        ))}
+      </div>
+
+      <button className="mt-6 w-full bg-green-600 text-white py-2 rounded">
+        Comprar
+      </button>
     </div>
   );
-}
+};
 
 export default Carrinho;
