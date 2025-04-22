@@ -96,7 +96,7 @@ const Sidebar = () => {
           </ul>
 
           <div className="user-profile">
-            <div className="avatar">JV</div>
+            <div className="avatar">MP</div>
             {isOpen && (
               <div className="user-info">
                 <span className="user-name">Matheus P</span>
