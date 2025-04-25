@@ -3,6 +3,8 @@ import SideBar from './components/SideBar';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Home from './pages/Home';
 import Anuncios from './pages/Anuncios';
+import Cadastro from './pages/Cadastro';
+import Login from './pages/Login';
 import Pedidos from './pages/Pedidos';
 import Carrinho from './pages/Carrinho';
 import Notificacoes from './pages/Notificacoes';
@@ -16,6 +18,8 @@ function App() {
         <SideBar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/cadastro" element={<Cadastro />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/anuncios" element={<Anuncios />} />
           <Route path="/pedidos" element={<Pedidos />} />
           <Route path="/carrinho" element={<Carrinho />} />

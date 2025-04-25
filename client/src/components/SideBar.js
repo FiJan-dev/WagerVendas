@@ -96,11 +96,12 @@ const Sidebar = () => {
           </ul>
 
           <div className="user-profile">
-            <div className="avatar">MP</div>
+            <div className="avatar">UK</div>
             {isOpen && (
-              <div className="user-info">
-                <span className="user-name">Matheus P</span>
-                <span className="user-email">matheusp@wagervendas.com</span>
+              <div className="flex gap-2">
+                <Link className='menu-text' to="/cadastro">Cadastrar</Link>
+                <label>/</label>
+                <Link className='menu-text' to="/login">Logar</Link>
               </div>
             )}
           </div>
