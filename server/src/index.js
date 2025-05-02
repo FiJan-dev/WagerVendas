@@ -4,6 +4,7 @@ const cors = require("cors");
 const mysql = require("mysql2");
 const port = process.env.SERVER_PORT;
 const usuarioRoutes = require('./routes/rotaUsuario')
+const pesquisaRoute = require ('./routes/rotaSearch')
 
 const app = express();
 app.use(cors());
@@ -34,4 +35,6 @@ app.listen(port, () => {
 
 
 app.use('/api', usuarioRoutes)
+
+app.use('/api2', pesquisaRoute)
 

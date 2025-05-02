@@ -1,6 +1,8 @@
 import './App.css';
 import SideBar from './components/SideBar';
+import SearchBar from './components/SearchBar';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import SearchPage from './pages/SearchPage';
 import Home from './pages/Home';
 import Anuncios from './pages/Anuncios';
 import Cadastro from './pages/Cadastro';
@@ -16,6 +18,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <SideBar />
+        <SearchBar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/cadastro" element={<Cadastro />} />
@@ -26,6 +29,7 @@ function App() {
           <Route path="/notificacoes" element={<Notificacoes />} />
           <Route path="/configuracoes" element={<Configuracoes />} />
           <Route path="/suporte" element={<Suporte />} />
+          <Route path="/produtos" element={<SearchPage />} />
         </Routes>
       </BrowserRouter>
     </div>
