@@ -12,6 +12,7 @@ import Carrinho from './pages/Carrinho';
 import Notificacoes from './pages/Notificacoes';
 import Suporte from './pages/Suporte';
 import Configuracoes from './pages/Configuracoes';
+import Perfil from './pages/Perfil';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/anuncios" element={<Anuncios />} />
           <Route path="/pedidos" element={<Pedidos />} />
+          <Route path="/perfil" element={<Perfil />} />
           <Route path="/carrinho" element={<Carrinho />} />
           <Route path="/notificacoes" element={<Notificacoes />} />
           <Route path="/configuracoes" element={<Configuracoes />} />
