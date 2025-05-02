@@ -19,10 +19,17 @@ const Cadastro = () => {
         e.preventDefault()
         axios.post('http://localhost:5000/api/cadastro', values)
         .then((res)=>{
+          console.log(res)  
+          if(res.status === 201)
             navigate('/')
-            console.log(res)
         })
-        .catch((err)=>console.log(err));
+        .catch((err)=>{
+          if(err.response){
+            alert('Cadastro Não Realizado')
+          } else{
+            alert('Erro inesperado por favor tente novamente seu merda')
+          }
+        });
     }
 
     return (
