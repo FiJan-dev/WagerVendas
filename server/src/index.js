@@ -34,7 +34,7 @@ app.listen(port, () => {
 });
 
 
-app.use('/api', usuarioRoutes)
+app.use('/api', usuarioRoutes) 
 
 app.use('/api2', pesquisaRoute)
 
