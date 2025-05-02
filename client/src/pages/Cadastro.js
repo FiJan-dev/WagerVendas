@@ -27,7 +27,7 @@ const Cadastro = () => {
           if(err.response){
             alert('Cadastro Não Realizado')
           } else{
-            alert('Erro inesperado por favor tente novamente seu merda')
+            alert('Erro inesperado por favor tente novamente')
           }
         });
     }
