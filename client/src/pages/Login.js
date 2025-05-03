@@ -18,6 +18,7 @@ const handleSubmit = (e) => {
     .then((res)=>{
       if(res.status === 201){
           console.log('Login Bem Sucedido')
+          localStorage.setItem('token', res.data.token)
           navigate('/')
         }
     })

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   FiMenu, 
   FiX, 
@@ -12,10 +12,69 @@ import {
 } from '../../node_modules/react-icons/fi';
 import { Link } from 'react-router-dom';
 import './SideBar.css';
+import axios from 'axios';
+
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [activeItem, setActiveItem] = useState('Página Inicial');
+  const [userName, setUserName] = useState('');
+
+  useEffect(()=>{
+    const token = localStorage.getItem('token');
+    console.log('Token inicial:', token)
+    
+    axios.get('http://localhost:5000/api/perfil', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then(res => {
+      console.log(res.data);
+      setUserName(res.data.nome);
+    })
+    .catch(err => {
+      console.error('Erro ao buscar perfil:', err)
+    });
+  },[]);
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const updatedToken = localStorage.getItem('token');
+      
+      console.log('UPToken inicial:', updatedToken);
+      if (updatedToken) {
+        axios.get('http://localhost:5000/api/perfil', {
+          headers: {
+            Authorization: `Bearer ${updatedToken}`
+          }
+        })
+        .then(res => {
+          console.log('Perfil atualizado pelo storage event:', res.data);
+          setUserName(res.data.nome);
+        })
+        .catch(err => {
+          console.error('Erro ao buscar perfil após mudança de token:', err)
+        });
+      }
+    };
+  
+    window.addEventListener('storage', handleStorageChange);
+  
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
+
+  const getInitials = (nome) => {
+    return nome
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .toUpperCase();
+  };
+
+  const avatarText = userName ? getInitials(userName) : '??';
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -96,7 +155,15 @@ const Sidebar = () => {
           </ul>
 
           <div className="user-profile">
-            <div className="avatar">UK</div>
+            <div className="avatar">
+              {/* Exibe o nome ou as iniciais */}
+              {userName ? (
+                <span>{userName}</span> // Exibe o nome completo
+              ) : (
+                avatarText // Exibe as iniciais se o nome não estiver carregado ainda
+              )}
+              <Link to="/perfil"></Link>
+            </div>
             {isOpen && (
               <div className="flex gap-2">
                 <Link className='menu-text' to="/cadastro">Cadastrar</Link>

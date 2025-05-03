@@ -1,4 +1,6 @@
 const crypto = require('crypto')
+const jwt = require('jsonwebtoken')
+const key = process.env.SECRET_KEY;
 
 exports.cadastrar =(req, res)=>{
     const db = req.app.get('db')
@@ -33,12 +35,19 @@ exports.logar = (req,res)=>{
     ]
 
     db.query(sql, values, (err, result)=>{
-        console.log('Resultado da consulta ao banco:', result);
         if(result.length > 0){
-            console.log('entrei no if')
-            res.status(201).json({msg: 'Login bem-sucedido'})
+            const user = result[0]
+
+            const payload = {
+                id: user.id_usuario,
+                nome: user.nome_usuario,
+                email: user.email_usuario
+            };
+
+            const token = jwt.sign(payload, key, {expiresIn: '10h'});
+
+            res.status(201).json({token})
         } else {
-            console.log('entrei no else')
             res.status(401).json({msg: 'Login FOI UMA MERDA'})
         }
     });
