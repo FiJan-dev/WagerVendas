@@ -1,10 +1,12 @@
 import React from 'react'
 import {FiSend} from 'react-icons/fi';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AutenticaContext';
 
 const Login = () => { 
+  const { login } = useContext(AuthContext);
   const [values, setValues] = useState({
     email: '',
     senha: ''
@@ -18,7 +20,8 @@ const handleSubmit = (e) => {
     .then((res)=>{
       if(res.status === 201){
           console.log('Login Bem Sucedido')
-          localStorage.setItem('token', res.data.token)
+          login(res.data.token, res.data.user);
+
           navigate('/')
         }
     })

@@ -45,7 +45,10 @@ exports.logar = (req,res)=>{
                 email: user.email_usuario
             };
 
-            const token = jwt.sign(payload, key, {expiresIn: '10h'});
+            const data = new Date();
+            data.setHours(new Date().getHours() + 10);
+
+            const token = jwt.sign(payload, key, {expiresIn: data.getTime()});
 
             res.status(201).json({token})
         } else {

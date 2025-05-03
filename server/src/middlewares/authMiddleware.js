@@ -19,6 +19,7 @@ const autenticarToken = (req, res, next) => {
 
     jwt.verify(token, key, (err, user)=>{
         if(err){
+            console.log(err)
             return res.sendStatus(401).json({msg: 'erro do verify'});
         }
 

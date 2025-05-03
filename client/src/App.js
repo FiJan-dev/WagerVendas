@@ -1,6 +1,7 @@
 import './App.css';
 import SideBar from './components/SideBar';
 import SearchBar from './components/SearchBar';
+import { AuthProvider } from './context/AutenticaContext';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import SearchPage from './pages/SearchPage';
 import Home from './pages/Home';
@@ -17,6 +18,7 @@ import Perfil from './pages/Perfil';
 function App() {
   return (
     <div className="App">
+      <AuthProvider>
       <BrowserRouter>
         <SideBar />
         <SearchBar />
@@ -34,6 +36,7 @@ function App() {
           <Route path="/produtos" element={<SearchPage />} />
         </Routes>
       </BrowserRouter>
+      </AuthProvider>
     </div>
   );
 }
