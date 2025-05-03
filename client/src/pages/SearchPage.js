@@ -37,6 +37,13 @@ const SearchPage = () => {
           {produtos.length > 0 ? (
             produtos.map((produto) => (
               <div key={produto.id_produto} className="border p-4 rounded shadow">
+                {produto.img_url && (
+                <img
+                  src={produto.img_url}
+                  alt={produto.nome_produto}
+                  className="w-full h-48 object-cover rounded mb-2"
+                />
+                )}
                 <h3 className="text-lg font-bold">{produto.nome_produto}</h3>
                 <p>{produto.desc_produto}</p>
                 <p className="text-green-600 font-semibold">R$ {produto.preco_produto}</p>
