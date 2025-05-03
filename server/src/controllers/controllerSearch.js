@@ -4,13 +4,15 @@ exports.pesquisar = (req, res) => {
   
     const sql = `
       SELECT 
-        id_produto, 
-        nome_produto, 
-        desc_produto AS descricao, 
-        preco_produto AS preco, 
-        categoria_produto AS categoria 
-      FROM produtos
-      WHERE nome_produto LIKE ? OR desc_produto LIKE ?
+        p.id_produto, 
+        p.nome_produto, 
+        p.desc_produto, 
+        REPLACE(FORMAT(p.preco_produto, 2), '.', ',') AS preco_produto, 
+        p.categoria_produto,
+        m.img_url
+        FROM produtos p
+      LEFT JOIN midias m ON p.id_produto = m.id_produto AND m.ordem = 0
+      WHERE p.nome_produto LIKE ?
     `;
   
     const likeBusca = `%${termoBusca}%`;

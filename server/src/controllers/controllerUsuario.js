@@ -2,7 +2,6 @@ const crypto = require('crypto')
 
 exports.cadastrar =(req, res)=>{
     const db = req.app.get('db')
-
     const sql = "insert into usuarios(nome_usuario, email_usuario, senha_usuario, cpf_usuario, endereco_usuario) values(?, ?, ?, ?, ?) "
     const values =[ 
         req.body.nome,
