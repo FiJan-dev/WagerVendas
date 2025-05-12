@@ -3,10 +3,13 @@ const express = require("express");
 const cors = require("cors");
 const mysql = require("mysql2");
 const port = process.env.SERVER_PORT;
+const usuarioRoutes = require('./routes/rotaUsuario')
+const pesquisaRoute = require ('./routes/rotaSearch')
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
 
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -14,6 +17,8 @@ const db = mysql.createConnection({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
 });
+
+app.set('db', db)
 
 db.connect(err => {
   if (err) return console.error("Erro ao conectar com MySQL:", err);
@@ -24,7 +29,12 @@ app.get("/", (req, res) => {
   res.send("API funcionando!");
 });
 
-app.listen(5000, () => {
+app.listen(port, () => {
   console.log("Servidor rodando na porta 5000");
 });
+
+
+app.use('/api', usuarioRoutes) 
+
+app.use('/api2', pesquisaRoute)
 
