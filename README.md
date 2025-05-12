@@ -51,4 +51,4 @@ docker-compose up --build
 ### Acessar o projeto
 
 - _Frontend:_ http://localhost:3000
-- _Banco:_ docker run -it --network container:mariadb --rm mariadb mariadb -h127.0.0.1 -udev -p --ssl-verify-server-cert=FALSE
+- _Banco:_ docker exec -it mariadb mariadb -u root -p
