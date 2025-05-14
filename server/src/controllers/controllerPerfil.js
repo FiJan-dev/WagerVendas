@@ -6,7 +6,7 @@ exports.pegarPerfil = (req, res) => {
 
     const id_usuario = req.user.id;
     
-    const sql = "select nome_usuario, email_usuario from usuarios where id_usuario = ?";
+    const sql = "select nome_usuario, email_usuario, id_usuario from usuarios where id_usuario = ?";
     db.query(sql, [id_usuario], (err, result)=>{
         if(err){
             return res.status(500).json({msg: 'erro ao buscar perfil'});
@@ -17,7 +17,8 @@ exports.pegarPerfil = (req, res) => {
         if(result.length > 0 ){
             return res.status(200).json({
                 nome: result[0].nome_usuario,
-                email: result[0].email_usuario
+                email: result[0].email_usuario,
+                id: result[0].id_usuario
             });
             
         } else {

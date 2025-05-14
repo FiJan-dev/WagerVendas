@@ -8,7 +8,8 @@ import {
   FiShoppingCart, 
   FiBell, 
   FiHelpCircle,
-  FiStar
+  FiStar,
+  FiPackage
 } from '../../node_modules/react-icons/fi';
 import { Link } from 'react-router-dom';
 import './SideBar.css';
@@ -35,7 +36,8 @@ const Sidebar = () => {
   const menuItems = [
     { name: 'Página Inicial', icon: <FiHome />, path: '/' },
     { name: 'Seus Anúncios', icon: <FiShoppingBag />, path: '/anuncios' },
-    { name: 'Seus Pedidos', icon: <FiStar />, path: '/pedidos' },
+    { name: 'Seus Pedidos', icon: <FiPackage />, path: '/pedidos' },
+    { name: 'Lista de Desejos', icon: <FiStar />, path: '/wishlist' },
     { name: 'Seu Carrinho', icon: <FiShoppingCart />, path: '/carrinho' },
   ];
 

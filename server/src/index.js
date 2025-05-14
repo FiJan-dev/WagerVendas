@@ -3,6 +3,8 @@ const express = require("express");
 const cors = require("cors");
 const mysql = require("mysql2");
 const port = process.env.SERVER_PORT;
+const rotaCarrinho = require('./routes/rotaCarrinho')
+const rotaWishlist = require('./routes/rotaWishlist')
 const usuarioRoutes = require('./routes/rotaUsuario')
 const pesquisaRoute = require ('./routes/rotaSearch')
 
@@ -36,5 +38,9 @@ app.listen(port, () => {
 
 app.use('/api', usuarioRoutes) 
 
-app.use('/api2', pesquisaRoute)
+app.use('/api', pesquisaRoute)
+
+app.use('/api', rotaCarrinho(db))
+
+app.use('/api', rotaWishlist(db))
 
