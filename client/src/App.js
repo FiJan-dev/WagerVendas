@@ -14,6 +14,8 @@ import Notificacoes from './pages/Notificacoes';
 import Suporte from './pages/Suporte';
 import Configuracoes from './pages/Configuracoes';
 import Perfil from './pages/Perfil';
+import MetodosPG from './pages/MetodosPG';
+import InfoUsuario from './pages/InfoUsuario';
 
 function App() {
   return (
@@ -35,6 +37,8 @@ function App() {
           <Route path="/configuracoes" element={<Configuracoes />} />
           <Route path="/suporte" element={<Suporte />} />
           <Route path="/produtos" element={<SearchPage />} />
+          <Route path="/metodosPG" element={<MetodosPG />} />
+          <Route path="/infoUsuario" element={<InfoUsuario />} />
         </Routes>
       </BrowserRouter>
       </AuthProvider>
