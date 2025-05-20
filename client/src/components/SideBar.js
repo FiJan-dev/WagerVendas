@@ -49,7 +49,7 @@ const Sidebar = () => {
 
   return (
     <>
-      {!isOpen && (
+      {isOpen && (
         <div 
           className="sidebar-overlay"
           onClick={toggleSidebar}

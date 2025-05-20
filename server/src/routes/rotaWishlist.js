@@ -17,12 +17,23 @@ module.exports = (db) => {
   router.get('/wishlist/:userId', (req, res) => {
     const userId = req.params.userId;
 
-    const query = 'SELECT * FROM lista_de_desejos WHERE id_usuario = ?';
+    const query = `
+    SELECT p.id_produto, p.nome_produto, REPLACE(FORMAT(p.preco_produto, 2), '.', ',') AS preco_produto, m.img_url
+    FROM lista_de_desejos l
+    JOIN produtos p ON l.id_produto = p.id_produto
+    LEFT JOIN (
+      SELECT id_produto, img_url
+      FROM midias
+      WHERE ordem = 0
+    ) m ON p.id_produto = m.id_produto
+    WHERE l.id_usuario = ?
+  `;
     db.query(query, [userId], (err, results) => {
       if (err) {
         console.error('Erro ao buscar wishlist:', err);
         return res.status(500).json({ msg: 'Erro ao buscar lista de desejos' });
       }
+      console.log(results)
       res.json(results);  // Retorna os itens da wishlist
     });
   });

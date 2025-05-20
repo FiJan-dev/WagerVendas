@@ -7,6 +7,7 @@ const rotaCarrinho = require('./routes/rotaCarrinho')
 const rotaWishlist = require('./routes/rotaWishlist')
 const usuarioRoutes = require('./routes/rotaUsuario')
 const pesquisaRoute = require ('./routes/rotaSearch')
+const produtosRoute = require('./routes/rotaProdutos');
 
 const app = express();
 app.use(cors());
@@ -20,12 +21,22 @@ const db = mysql.createConnection({
   database: process.env.DB_NAME,
 });
 
-app.set('db', db)
-
 db.connect(err => {
   if (err) return console.error("Erro ao conectar com MySQL:", err);
   console.log("Conectado ao MySQL!");
 });
+
+app.set('db', db)
+
+app.use('/api', usuarioRoutes) 
+
+app.use('/api', pesquisaRoute)
+
+app.use('/api', produtosRoute(db))
+
+app.use('/api', rotaCarrinho(db))
+
+app.use('/api', rotaWishlist(db))
 
 app.get("/", (req, res) => {
   res.send("API funcionando!");
@@ -35,12 +46,4 @@ app.listen(port, () => {
   console.log("Servidor rodando na porta 5000");
 });
 
-
-app.use('/api', usuarioRoutes) 
-
-app.use('/api', pesquisaRoute)
-
-app.use('/api', rotaCarrinho(db))
-
-app.use('/api', rotaWishlist(db))
 

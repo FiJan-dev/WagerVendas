@@ -10,6 +10,7 @@ import Cadastro from './pages/Cadastro';
 import Login from './pages/Login';
 import Pedidos from './pages/Pedidos';
 import Carrinho from './pages/Carrinho';
+import Wishlist from './pages/Wishlist';
 import Notificacoes from './pages/Notificacoes';
 import Suporte from './pages/Suporte';
 import Configuracoes from './pages/Configuracoes';
@@ -30,7 +31,7 @@ function App() {
           <Route path="/pedidos" element={<Pedidos />} />
           <Route path="/perfil" element={<Perfil />} />
           <Route path="/carrinho" element={<Carrinho />} />
-          <Route path="/wishlist" element={<wishlist />} />
+          <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/notificacoes" element={<Notificacoes />} />
           <Route path="/configuracoes" element={<Configuracoes />} />
           <Route path="/suporte" element={<Suporte />} />

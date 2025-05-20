@@ -8,6 +8,8 @@ import { FaStar } from 'react-icons/fa';
 import { FiShoppingCart } from 'react-icons/fi';
 import { AuthContext } from '../context/AutenticaContext';
 import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+
 
 
 
@@ -125,20 +127,28 @@ const SearchPage = () => {
 
 
   return (
-    <div className="p-4">
-      {loading ? (
-        <p>Buscando produtos...</p>
-      ) : (
-        <div className="px-16 mt-4 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-5">
+  <div className="p-4">
+    {loading ? (
+      <p>Buscando produtos...</p>
+    ) : (
+      <div className="px-16 mt-4 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-5">
+        <AnimatePresence>
           {produtos.length > 0 ? (
             produtos.map((produto) => (
-              <div key={produto.id_produto} className="border p-4 rounded shadow relative">
+              <motion.div
+                key={produto.id_produto}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.3 } }}
+                layout
+                className="border p-4 rounded shadow relative"
+              >
                 {produto.img_url && (
-                <img
-                  src={produto.img_url}
-                  alt={produto.nome_produto}
-                  className="w-full h-48 object-cover rounded mb-2"
-                />
+                  <img
+                    src={produto.img_url}
+                    alt={produto.nome_produto}
+                    className="w-full h-48 object-cover rounded mb-2"
+                  />
                 )}
 
                 {user ? (
@@ -158,6 +168,7 @@ const SearchPage = () => {
                     <FiStar />
                   </button>
                 )}
+
                 {user ? (
                   <button
                     onClick={() => handleAddToCart(produto)}
@@ -178,19 +189,20 @@ const SearchPage = () => {
                     <FiShoppingCart />
                   </button>
                 )}
-                
+
                 <h3 className="text-lg font-bold">{produto.nome_produto}</h3>
                 <p>{produto.desc_produto}</p>
                 <p className="text-green-600 font-semibold">R$ {produto.preco_produto}</p>
                 <p className="text-sm text-gray-500">{produto.categoria_produto}</p>
-              </div>
+              </motion.div>
             ))
           ) : (
             <p>Nenhum produto encontrado para "{query}".</p>
           )}
-        </div>
-      )}
-    </div>
+        </AnimatePresence>
+      </div>
+    )}
+  </div>
   );
 };
 

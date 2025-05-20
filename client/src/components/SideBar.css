@@ -37,9 +37,8 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: transparent;
     z-index: 999;
-    display: none;
   }
   
   .sidebar-header {
@@ -61,14 +60,23 @@
   .sidebar-title {
     white-space: nowrap;
     margin: 0;
-    opacity: 0;
-    transition: opacity 0.3s ease 0.2s;
+    transition: transform 0.3s ease, opacity 0.3s ease;
     font-size: 1.5rem;
     font-weight: 700;
     background: linear-gradient(to right, var(--primary-light), var(--primary-color));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+  }
+
+  .sidebar-container.open .sidebar-title {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  .sidebar-container.closed .sidebar-title {
+    transform: translateX(-150%);
+    opacity: 0; /* opcional, para sumir suavemente */
   }
   
   .sidebar-title.visible {

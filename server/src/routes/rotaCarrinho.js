@@ -24,7 +24,12 @@ module.exports = (db) => {
   router.get('/carrinho/:userId', (req, res) => {
     const userId = req.params.userId;
 
-    const query = 'SELECT * FROM pedidos WHERE id_usuario = ?';
+    const query = `
+    SELECT p.id_produto, p.nome_produto, p.preco_produto
+    FROM pedidos pe
+    JOIN produtos p ON pe.id_produto = p.id_produto
+    WHERE pe.id_usuario = ? AND pe.status_pedido = 'carrinho'
+  `;
     db.query(query, [userId], (err, results) => {
       if (err) {
         console.error('Erro ao buscar carrinho:', err);
@@ -33,6 +38,23 @@ module.exports = (db) => {
       res.json(results);  // Retorna os itens do carrinho
     });
   });
+
+  router.delete('/carrinho/:userId/item/:produtoId', (req, res) => {
+  const { userId, produtoId } = req.params;
+
+  const sql = 'DELETE FROM pedidos WHERE id_usuario = ? AND id_produto = ? AND status_pedido = "carrinho" LIMIT 1';
+
+  db.query(sql, [userId, produtoId], (err, result) => {
+    if (err) {
+      console.error('Erro ao remover item do carrinho:', err);
+      return res.status(500).json({ msg: 'Erro ao remover item do carrinho' });
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ msg: 'Item não encontrado no carrinho' });
+    }
+    res.json({ msg: 'Item removido com sucesso' });
+  });
+});
 
   return router;
 };

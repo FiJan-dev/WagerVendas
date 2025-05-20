@@ -1,50 +1,194 @@
-import React from 'react';
-import AppleWatch from '../assets/images/applewatch.jpeg';
+import React, { useContext, useEffect, useState } from 'react';
+import axios from 'axios';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FiStar, FiShoppingCart } from 'react-icons/fi';
+import { FaStar } from 'react-icons/fa';
+import { AuthContext } from '../context/AutenticaContext';
 
-function ItemCard({ item }) {
-  return (
-    <div className="border rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow">
-      <img
-        src={item.image}
-        alt={item.name}
-        className="w-full h-32 object-cover rounded-md mb-2"
-      />
-      <h2 className="text-lg font-semibold">{item.name}</h2>
-      <p className="text-green-600 font-bold">{item.price}</p>
-    </div>
-  );
-}
+const Home = () => {
+  const { user } = useContext(AuthContext);
+  const [produtos, setProdutos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [wishlist, setWishlist] = useState({});
+  const [addedToCart, setAddedToCart] = useState({});
 
-function Home() {
-  const items = [
-    { id: 1, name: 'Apple Watch', price: 'R$ 500,00', image: AppleWatch },
-    { id: 2, name: 'Apple Watch', price: 'R$ 600,00', image: AppleWatch },
-    { id: 3, name: 'Apple Watch', price: 'R$ 700,00', image: AppleWatch },
-    { id: 4, name: 'Apple Watch', price: 'R$ 800,00', image: AppleWatch },
-    { id: 5, name: 'Apple Watch', price: 'R$ 900,00', image: AppleWatch },
-    { id: 6, name: 'Apple Watch', price: 'R$ 1.000,00', image: AppleWatch },
-    { id: 7, name: 'Apple Watch', price: 'R$ 1.100,00', image: AppleWatch },
-    { id: 8, name: 'Apple Watch', price: 'R$ 1.200,00', image: AppleWatch },
-    { id: 9, name: 'Apple Watch', price: 'R$ 1.300,00', image: AppleWatch },
-    { id: 10, name: 'Apple Watch', price: 'R$ 1.400,00', image: AppleWatch },
-    { id: 11, name: 'Apple Watch', price: 'R$ 1.500,00', image: AppleWatch },
-    { id: 12, name: 'Apple Watch', price: 'R$ 1.600,00', image: AppleWatch },
-    { id: 13, name: 'Apple Watch', price: 'R$ 1.700,00', image: AppleWatch },
-    { id: 14, name: 'Apple Watch', price: 'R$ 1.800,00', image: AppleWatch },
-    { id: 15, name: 'Apple Watch', price: 'R$ 1.900,00', image: AppleWatch },
-    { id: 16, name: 'Apple Watch', price: 'R$ 2.000,00', image: AppleWatch },
-  ];
+  // Busca todos os produtos
+  const fetchProdutos = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.get('http://localhost:5000/api/produtos');
+      setProdutos(res.data);
+      setLoading(false);
+    } catch (err) {
+      setError('Erro ao buscar produtos.');
+      setLoading(false);
+    }
+  };
+
+  // Busca wishlist e carrinho do usuário
+  const fetchUserItems = () => {
+    if (user) {
+      axios.get(`http://localhost:5000/api/wishlist/${user.id}`)
+        .then(res => {
+          const wishlistItems = res.data.reduce((acc, item) => {
+            acc[item.id_produto] = true;
+            return acc;
+          }, {});
+          setWishlist(wishlistItems);
+        })
+        .catch(err => console.error("Erro ao buscar lista de desejos:", err));
+
+      axios.get(`http://localhost:5000/api/carrinho/${user.id}`)
+        .then(res => {
+          const cartItems = res.data.reduce((acc, item) => {
+            acc[item.id_produto] = true;
+            return acc;
+          }, {});
+          setAddedToCart(cartItems);
+        })
+        .catch(err => console.error("Erro ao buscar carrinho:", err));
+    }
+  };
+
+  useEffect(() => {
+    fetchProdutos();
+  }, []);
+
+  useEffect(() => {
+    if (user) fetchUserItems();
+  }, [user]);
+
+  const toggleWishlist = (id_produto) => {
+    const alreadyAdded = wishlist[id_produto];
+
+    if (!user) return alert("Você precisa estar logado para modificar a lista de desejos.");
+
+    if (alreadyAdded) {
+      axios.delete('http://localhost:5000/api/wishlist', {
+        data: { id_usuario: user.id, id_produto }
+      })
+      .then(() => {
+        setWishlist(prev => {
+          const updated = { ...prev };
+          delete updated[id_produto];
+          return updated;
+        });
+      })
+      .catch(err => console.error("Erro ao remover da lista de desejos:", err));
+    } else {
+      axios.post('http://localhost:5000/api/wishlist', {
+        id_usuario: user.id,
+        id_produto
+      })
+      .then(() => {
+        setWishlist(prev => ({ ...prev, [id_produto]: true }));
+      })
+      .catch(err => console.error("Erro ao adicionar à lista de desejos:", err));
+    }
+  };
+
+  const handleAddToCart = (produto) => {
+    if (!user) return alert("Você precisa estar logado para adicionar ao carrinho.");
+
+    if (!addedToCart[produto.id_produto]) {
+      axios.post('http://localhost:5000/api/carrinho', {
+        id_usuario: user.id,
+        id_produto: produto.id_produto
+      })
+      .then(() => {
+        setAddedToCart(prev => ({ ...prev, [produto.id_produto]: true }));
+      })
+      .catch(err => console.error("Erro ao adicionar ao carrinho:", err));
+    }
+  };
+
+  if (loading) {
+    return <p className="text-center p-6">Carregando produtos...</p>;
+  }
+
+  if (error) {
+    return <p className="text-center p-6 text-red-600">{error}</p>;
+  }
+
+  if (produtos.length === 0) {
+    return <p className="text-center p-6 text-gray-500">Nenhum produto disponível no momento.</p>;
+  }
 
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4 text-center">Itens à venda</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {items.map((item) => (
-          <ItemCard key={item.id} item={item} />
-        ))}
+
+      <div className="px-16 mt-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <AnimatePresence>
+          {produtos.map(produto => (
+            <motion.div
+              key={produto.id_produto}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.3 } }}
+              layout
+              className="border p-4 rounded shadow relative bg-white"
+            >
+              {produto.img_url && (
+                <img
+                  src={produto.img_url}
+                  alt={produto.nome_produto}
+                  className="w-full h-48 object-cover rounded mb-2"
+                />
+              )}
+
+              {/* Botão wishlist */}
+              {user ? (
+                <button
+                  onClick={() => toggleWishlist(produto.id_produto)}
+                  title={wishlist[produto.id_produto] ? "Remover da lista de desejos" : "Adicionar à lista de desejos"}
+                  className="absolute bottom-2 right-2 text-yellow-500 text-xl hover:scale-110 transition-transform"
+                >
+                  {wishlist[produto.id_produto] ? <FaStar /> : <FiStar />}
+                </button>
+              ) : (
+                <button
+                  title="Você deve estar logado para adicionar itens à sua lista de desejos!"
+                  disabled
+                  className="opacity-40 cursor-not-allowed absolute bottom-2 right-2 text-yellow-500 text-xl"
+                >
+                  <FiStar />
+                </button>
+              )}
+
+              {/* Botão carrinho */}
+              {user ? (
+                <button
+                  onClick={() => handleAddToCart(produto)}
+                  title={addedToCart[produto.id_produto] ? "Produto já está no carrinho" : "Adicionar ao carrinho"}
+                  disabled={addedToCart[produto.id_produto]}
+                  className={`absolute bottom-2 left-2 text-blue-500 text-xl transition-opacity ${
+                    addedToCart[produto.id_produto] ? "opacity-40 cursor-not-allowed" : "hover:scale-110"
+                  }`}
+                >
+                  <FiShoppingCart />
+                </button>
+              ) : (
+                <button
+                  title="Você deve estar logado para adicionar itens ao seu carrinho!"
+                  disabled
+                  className="absolute bottom-2 left-2 text-blue-500 text-xl opacity-40 cursor-not-allowed"
+                >
+                  <FiShoppingCart />
+                </button>
+              )}
+
+              <h3 className="text-lg font-bold">{produto.nome_produto}</h3>
+              <p className="text-sm mb-1">{produto.desc_produto}</p>
+              <p className="text-green-600 font-semibold">R$ {produto.preco_produto}</p>
+              <p className="text-sm text-gray-500">{produto.categoria_produto}</p>
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </div>
     </div>
   );
-}
+};
 
 export default Home;
