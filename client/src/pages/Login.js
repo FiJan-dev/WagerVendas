@@ -13,32 +13,39 @@ const Login = () => {
 });
 
 const navigate = useNavigate();
+const [msgSuccess, setMsgSuccess] = useState('');
 
-const handleSubmit = (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault()
-    axios.post('http://localhost:5000/api/login', values)
-    .then((res)=>{
+    try{
+      const res = await axios.post('http://localhost:5000/api/login', values);
       if(res.status === 201){
-          console.log('Login Bem Sucedido')
-          login(res.data.token, res.data.user);
-
-          navigate('/')
-        }
-    })
-    .catch((err)=> {
-      if (err.response) {
+        console.log('login bem sucedido');
+        setMsgSuccess('Login Realizado com Sucesso');
+        login(res.data.token, res.data.user);
+        setTimeout(()=>{
+          navigate('/');
+        },2000);
+      }
+    } catch (err){
+      if(err.response){
         alert('Email ou Senha Incorretos');
       } else {
-        alert('Erro desconhecido ao tentar fazer login.');
+        alert('Erro inesperado de Login');
       }
-    });
+    }
 };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">  
         <div className="w-full max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">Login</h2>
-        
+
+        {msgSuccess && (
+          <div className="  mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded">
+            {msgSuccess}
+          </div>
+        )}
         <form className="space-y-4" onSubmit={handleSubmit}>
           {/* Email */}
           <div>
