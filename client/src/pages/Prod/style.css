@@ -1,0 +1,70 @@
+:root {
+  --color-white: #fff;
+  --color-border: #ccc;
+  --color-gray: #666;
+  --panel-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Container */
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Panel */
+.panel {
+  background-color: var(--color-white);
+  box-shadow: var(--panel-shadow);
+  display: grid;
+  grid-template-columns: 65fr 35fr;
+}
+
+/* Gallery */
+.gallery {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 530px;
+}
+
+.gallery img {
+  height: 73%;
+}
+
+/* Column */
+.column {
+  /* To apply border to the first column specifically, use a selector in the JSX */
+  border-right: 1px solid var(--color-border);
+}
+
+/* Description */
+.description {
+  border-top: 1px solid var(--color-border);
+  padding: 44px 32px;
+}
+
+.description h2 {
+  font-size: 24px;
+  margin-bottom: 32px;
+}
+
+.description p {
+  font-size: 20px;
+  color: var(--color-gray);
+  line-height: 27px;
+}
+
+/* Button */
+.button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
