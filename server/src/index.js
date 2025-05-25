@@ -1,17 +1,18 @@
-require('dotenv').config();
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const mysql = require("mysql2");
 const port = process.env.SERVER_PORT;
-const rotaCarrinho = require('./routes/rotaCarrinho')
-const rotaWishlist = require('./routes/rotaWishlist')
-const usuarioRoutes = require('./routes/rotaUsuario')
-const pesquisaRoute = require ('./routes/rotaSearch')
+const rotaCarrinho = require("./routes/rotaCarrinho");
+const rotaWishlist = require("./routes/rotaWishlist");
+const usuarioRoutes = require("./routes/rotaUsuario");
+const pesquisaRoute = require("./routes/rotaSearch");
+const rotaCriaProduto = require("./routes/rotaCriaProduto");
 
 const app = express();
 app.use(cors());
-app.use(express.json());
-
+app.use(express.json({limit: "50mb"}));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -20,9 +21,9 @@ const db = mysql.createConnection({
   database: process.env.DB_NAME,
 });
 
-app.set('db', db)
+app.set("db", db);
 
-db.connect(err => {
+db.connect((err) => {
   if (err) return console.error("Erro ao conectar com MySQL:", err);
   console.log("Conectado ao MySQL!");
 });
@@ -35,12 +36,12 @@ app.listen(port, () => {
   console.log("Servidor rodando na porta 5000");
 });
 
+app.use("/api", usuarioRoutes);
 
-app.use('/api', usuarioRoutes) 
+app.use("/api", pesquisaRoute);
 
-app.use('/api', pesquisaRoute)
+app.use("/api", rotaCarrinho(db));
 
-app.use('/api', rotaCarrinho(db))
+app.use("/api", rotaWishlist(db));
 
-app.use('/api', rotaWishlist(db))
-
+app.use("/api", rotaCriaProduto);
