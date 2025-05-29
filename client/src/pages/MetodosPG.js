@@ -21,7 +21,7 @@ const MetodosPG = () => {
   useEffect(() => {
   const fetchMetodos = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/${user.id}`);
+      const res = await axios.get(`http://localhost:5000/api/pagamento/${user.id}`);
       setMetodos(res.data);
     } catch (err) {
       console.error('Erro ao buscar métodos', err);
@@ -59,7 +59,13 @@ const MetodosPG = () => {
         valor: novoMetodo.valor
       });
 
-      setMetodos((prev) => [...prev, res.data]);
+      const novoMetodoFormatado = {
+      id: res.data.id_metodo,  // pega id_metodo do backend e atribui para id
+      tipo: res.data.tipo,
+      valor: res.data.valor
+    };
+
+      setMetodos((prev) => [...prev, novoMetodoFormatado]);
       setNovoMetodo({ tipo: '', valor: '' });
       setNovoCadastro(false);
     } catch (err) {
