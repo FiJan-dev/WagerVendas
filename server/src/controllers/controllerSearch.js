@@ -3,15 +3,15 @@ exports.pesquisar = (req, res) => {
     const termoBusca = req.query.q || ''; // Exemplo: /produtos?q=camisa
   
     const sql = `
-      SELECT 
+        SELECT 
         p.id_produto, 
         p.nome_produto, 
         p.desc_produto, 
         REPLACE(FORMAT(p.preco_produto, 2), '.', ',') AS preco_produto, 
         p.categoria_produto,
-        m.img_url
-        FROM produtos p
-      LEFT JOIN midias m ON p.id_produto = m.id_produto AND m.ordem = 0
+        COALESCE(m.img_url, 'https://i.imgur.com/GOuG18o.jpeg') AS img_url
+      FROM produtos p
+      LEFT JOIN midias m ON p.id_produto = m.id_produto AND m.ordem = 1
       WHERE p.nome_produto LIKE ?
     `;
   
