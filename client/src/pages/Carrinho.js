@@ -1,13 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/AutenticaContext';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaTrash } from 'react-icons/fa';
-import { motion, AnimatePresence } from 'framer-motion'; // 🎯 import framer-motion
+import { motion, AnimatePresence } from 'framer-motion'; // import framer-motion
 
 const Carrinho = () => {
-  const { user } = useContext(AuthContext);
+  const { user, logout} = useContext(AuthContext);
   const [items, setItems] = useState([]);
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     if (user) {

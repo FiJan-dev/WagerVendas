@@ -12,31 +12,40 @@ const Cadastro = () => {
         cpf: '',
         endereco: ''
     });
+    const [msgSuccess, setMsgSuccess] = useState('');
 
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        axios.post('http://localhost:5000/api/cadastro', values)
-        .then((res)=>{
-          console.log(res)  
-          if(res.status === 201)
-            navigate('/')
-        })
-        .catch((err)=>{
-          if(err.response){
-            alert('Cadastro Não Realizado')
-          } else{
-            alert('Erro inesperado por favor tente novamente')
+        try{
+          const res = await axios.post('http://localhost:5000/api/cadastro', values);
+          if(res.status === 201){
+            setMsgSuccess('Cadastro Realizado com Sucesso, Redirecionando...');
+            setTimeout(()=>{
+              navigate('/');
+            }, 2000);
+            
           }
-        });
+        }catch (err){
+          if(err.response){
+            alert('cadastro não realizado, verfique as informções inseridas');
+          } else{
+            alert('Erro inesperado tente mais uma vez');
+          }
+        }
     }
 
     return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">  
         <div className="w-full max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">Formulário de Cadastro</h2>
-        
+      
+        {msgSuccess && (
+          <div className="  mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded">
+            {msgSuccess}
+          </div>
+        )}
         <form className="space-y-4" onSubmit={handleSubmit}>
           {/* Nome */}
           <div>
@@ -128,4 +137,4 @@ const Cadastro = () => {
     )
   }
   
-  export default Cadastro
+  export default Cadastro;
