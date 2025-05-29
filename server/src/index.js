@@ -7,7 +7,9 @@ const rotaCarrinho = require('./routes/rotaCarrinho')
 const rotaWishlist = require('./routes/rotaWishlist')
 const usuarioRoutes = require('./routes/rotaUsuario')
 const pesquisaRoute = require ('./routes/rotaSearch')
-const produtosRoute = require('./routes/rotaProdutos');
+const produtosRoute = require('./routes/rotaProdutos')
+const rotaCriaProduto = require('./routes/rotaCriaProduto');
+
 
 const app = express();
 app.use(cors());
@@ -39,6 +41,8 @@ app.use('/api', produtosRoute(db))
 app.use('/api', rotaCarrinho(db))
 
 app.use('/api', rotaWishlist(db))
+
+app.use('/api', rotaCriaProduto)
 
 app.get("/", (req, res) => {
   res.send("API funcionando!");
