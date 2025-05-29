@@ -11,9 +11,9 @@ module.exports = (db) => {
         p.desc_produto, 
         REPLACE(FORMAT(p.preco_produto, 2), '.', ',') AS preco_produto, 
         p.categoria_produto,
-        m.img_url
+        COALESCE(m.img_url, 'https://i.imgur.com/GOuG18o.jpeg') AS img_url
       FROM produtos p
-      LEFT JOIN midias m ON p.id_produto = m.id_produto AND m.ordem = 0
+      LEFT JOIN midias m ON p.id_produto = m.id_produto AND m.ordem = 1
     `;
 
     db.query(query, (err, results) => {

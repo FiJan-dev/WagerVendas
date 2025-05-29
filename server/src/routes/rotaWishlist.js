@@ -18,13 +18,13 @@ module.exports = (db) => {
     const userId = req.params.userId;
 
     const query = `
-    SELECT p.id_produto, p.nome_produto, REPLACE(FORMAT(p.preco_produto, 2), '.', ',') AS preco_produto, m.img_url
+    SELECT p.id_produto, p.nome_produto, REPLACE(FORMAT(p.preco_produto, 2), '.', ',') AS preco_produto, COALESCE(m.img_url, 'https://i.imgur.com/GOuG18o.jpeg') AS img_url
     FROM lista_de_desejos l
     JOIN produtos p ON l.id_produto = p.id_produto
     LEFT JOIN (
       SELECT id_produto, img_url
       FROM midias
-      WHERE ordem = 0
+      WHERE ordem = 1
     ) m ON p.id_produto = m.id_produto
     WHERE l.id_usuario = ?
   `;
