@@ -37,7 +37,7 @@ function App() {
             <Route path="/pedidos" element={<Pedidos />} />
             <Route path="/perfil" element={<Perfil />} />
             <Route path="/carrinho" element={<Carrinho />} />
-            <Route path="/wishlist" element={<wishlist />} />
+            <Route path="/wishlist" element={<Wishlist />} />
             <Route path="/notificacoes" element={<Notificacoes />} />
             <Route path="/configuracoes" element={<Configuracoes />} />
             <Route path="/suporte" element={<Suporte />} />
