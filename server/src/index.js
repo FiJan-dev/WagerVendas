@@ -45,3 +45,8 @@ app.use("/api", rotaCarrinho(db));
 app.use("/api", rotaWishlist(db));
 
 app.use("/api", rotaCriaProduto);
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Algo deu errado!');
+});

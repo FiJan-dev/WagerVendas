@@ -17,7 +17,7 @@ exports.pesquisar = (req, res) => {
   
     const likeBusca = `%${termoBusca}%`;
   
-    db.query(sql, [likeBusca, likeBusca], (err, resultados) => {
+    db.query(sql, [likeBusca], (err, resultados) => {
       if (err) {
         console.error("Erro ao buscar produtos: " + err);
         return res.status(500).json({ msg: "Erro ao buscar produtos" });

@@ -10,7 +10,7 @@ router.post('/login', controllerUsuario.logar)
 
 //Controllers com autenticação
 router.get('/perfil', autenticarToken, controllerPerfil.pegarPerfil)
-router.get('/:id_usuario', controllerPagamento.verPG)
+router.get('/payment/:id_usuario', controllerPagamento.verPG)
 router.post('/editar', controllerUsuario.editar)
 router.post('/pagamento', controllerPagamento.cadastrarPG)
 router.post('/pagamento/editar', controllerPagamento.editarPG)
