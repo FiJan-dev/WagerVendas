@@ -26,5 +26,34 @@ module.exports = (db) => {
     });
   });
 
-  return router;
+  router.get('/produto/:id', (req, res) => {
+  const sqlProduto = `SELECT * FROM produtos WHERE id_produto = ?`;
+  const sqlMidias = `SELECT * FROM midias WHERE id_produto = ?`;
+
+  db.query(sqlProduto, [req.params.id], (err, produto) => {
+    if (err) {
+      console.error('Erro ao buscar produto:', err);
+      return res.status(500).json({ error: 'Erro ao buscar produto' });
+    }
+
+    if (produto.length === 0) {
+      return res.status(404).json({ error: 'Produto não encontrado' });
+    }
+
+    db.query(sqlMidias, [req.params.id], (err2, midias) => {
+      if (err2) {
+        console.error('Erro ao buscar mídias do produto:', err2);
+        return res.status(500).json({ error: 'Erro ao buscar mídias do produto' });
+      }
+
+      const response = {
+        ...produto[0],
+        midias,
+      };
+
+      res.json(response);
+    });
+  });
+});
+return router;
 };

@@ -43,7 +43,7 @@ const Sidebar = () => {
 
   const secondaryItems = [
     { name: 'Notificações', icon: <FiBell />, path: '/notificacoes', badge: 3 },
-    { name: 'Configurações', icon: <FiSettings />, path: '/configuracoes' },
+    { name: 'Configurações', icon: <FiSettings />, path: '/infoUsuario' },
     { name: 'Suporte', icon: <FiHelpCircle />, path: '/suporte' },
   ];
 
