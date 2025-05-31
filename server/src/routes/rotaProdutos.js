@@ -11,6 +11,7 @@ module.exports = (db) => {
         p.desc_produto, 
         REPLACE(FORMAT(p.preco_produto, 2), '.', ',') AS preco_produto, 
         p.categoria_produto,
+        p.id_vendedor,
         COALESCE(m.img_url, 'https://i.imgur.com/GOuG18o.jpeg') AS img_url
       FROM produtos p
       LEFT JOIN midias m ON p.id_produto = m.id_produto AND m.ordem = 1

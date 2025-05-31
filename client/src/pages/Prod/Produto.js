@@ -5,6 +5,7 @@ import axios from "axios";
 import { FiStar, FiShoppingCart } from 'react-icons/fi';
 import { FaStar } from 'react-icons/fa';
 import { AuthContext } from '../../context/AutenticaContext';
+import { useNavigate } from "react-router-dom"; 
 
 const Produto = () => {
   const { id } = useParams();
@@ -12,6 +13,14 @@ const Produto = () => {
   const [produto, setProduto] = useState([]);
   const [wishlist, setWishlist] = useState({});
   const [addedToCart, setAddedToCart] = useState({});
+  const navigate = useNavigate();
+
+const handleComprarAgora = async () => {
+  if (!addedToCart[produto.id_produto]) {
+    await handleAddToCart(produto); 
+  }
+  navigate('/carrinho'); 
+};
 
 const fetchUserItems = () => {
     if (user) {
@@ -66,20 +75,24 @@ const toggleWishlist = (id_produto) => {
     }
   };
 
-  const handleAddToCart = (produto) => {
-    if (!user) return alert("Você precisa estar logado para adicionar ao carrinho.");
+const handleAddToCart = async (produto) => {
+  if (!user) {
+    alert("Você precisa estar logado para adicionar ao carrinho.");
+    return;
+  }
 
-    if (!addedToCart[produto.id_produto]) {
-      axios.post('http://localhost:5000/api/carrinho', {
+  if (!addedToCart[produto.id_produto]) {
+    try {
+      await axios.post('http://localhost:5000/api/carrinho', {
         id_usuario: user.id,
         id_produto: produto.id_produto
-      })
-      .then(() => {
-        setAddedToCart(prev => ({ ...prev, [produto.id_produto]: true }));
-      })
-      .catch(err => console.error("Erro ao adicionar ao carrinho:", err));
+      });
+      setAddedToCart(prev => ({ ...prev, [produto.id_produto]: true }));
+    } catch (err) {
+      console.error("Erro ao adicionar ao carrinho:", err);
     }
-  };
+  }
+};
 
   useEffect(() => {
     const fetchProduto = async () => {
@@ -113,8 +126,8 @@ const toggleWishlist = (id_produto) => {
         </div>
         <div className="column">
           <h1>{produto.nome_produto}</h1>
-          <p>R$ {produto.preco_produto}</p>
-          <div className="flex gap-4 my-4">
+          <p>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(produto.preco_produto)}</p>
+          <div className="justify-center items-center flex gap-4 my-4">
           {user ? (
                           <button
                             onClick={() => toggleWishlist(produto.id_produto)}
@@ -156,7 +169,12 @@ const toggleWishlist = (id_produto) => {
                           </button>
                         )}
                         </div>
-          <button>Comprar Agora</button> 
+          <button
+        onClick={handleComprarAgora}
+        className="mt-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
+      >
+        Comprar Agora
+      </button> 
           <Info descricao={produto.desc_produto} />
         </div>
       </div>
@@ -166,9 +184,9 @@ const toggleWishlist = (id_produto) => {
 
 const Info = ({ descricao }) => {
   return (
-    <div className="info">
-      <h2>Informações do Produto</h2>
-      <p>{descricao}</p>
+    <div className="py-4 info">
+      <h2 className="font-bold">Informações do Produto</h2>
+      <p className="py-1">{descricao}</p>
     </div>
   );
 };

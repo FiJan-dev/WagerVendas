@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FiStar, FiShoppingCart } from 'react-icons/fi';
 import { FaStar } from 'react-icons/fa';
 import { AuthContext } from '../context/AutenticaContext';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   const { user } = useContext(AuthContext);
@@ -130,13 +131,16 @@ const Home = () => {
               layout
               className="border p-4 rounded shadow relative bg-white"
             >
+              <Link to={`/produto/${produto.id_produto}`} className="block">
               {produto.img_url && (
                 <img
                   src={produto.img_url}
                   alt={produto.nome_produto}
                   className="w-full h-48 object-cover rounded mb-2"
                 />
+                
               )}
+              </Link>
 
               {/* Botão wishlist */}
               {user ? (
