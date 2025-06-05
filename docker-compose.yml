@@ -13,7 +13,7 @@ services:
       - db
     volumes:
       - ./server:/app
-      - /app/node_modules
+    command: sh -c "npm install && npm run dev"
     restart: always
 
   client:
@@ -25,7 +25,7 @@ services:
       - server
     volumes:
       - ./client:/app
-      - /app/node_modules
+    command: sh -c "npm install && npm start"
     restart: always
 
   db:
