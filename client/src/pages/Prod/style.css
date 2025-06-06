@@ -28,7 +28,11 @@
 }
 
 .gallery img {
-  height: 73%;
+  height: 500px;
+  max-width: 800px;
+  object-fit: cover;      /* mantém proporção e corta o excesso */
+  object-position: center; /* centraliza o corte */
+  display: block;          /* remove espaços indesejados */
 }
 
 /* Column */

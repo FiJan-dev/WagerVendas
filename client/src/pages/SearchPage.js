@@ -143,6 +143,7 @@ const SearchPage = () => {
                 layout
                 className="border p-4 rounded shadow relative"
               >
+                <Link to={`/produto/${produto.id_produto}`} className="block">
                 {produto.img_url && (
                   <img
                     src={produto.img_url}
@@ -151,6 +152,11 @@ const SearchPage = () => {
                   />
                 )}
 
+                <h3 className="text-lg font-bold">{produto.nome_produto}</h3>
+                <p>{produto.desc_produto}</p>
+                <p className="text-green-600 font-semibold">R$ {produto.preco_produto}</p>
+                <p className="text-sm text-gray-500">{produto.categoria_produto}</p>
+                </Link>
                 {user ? (
                   <button
                     onClick={() => toggleWishlist(produto.id_produto)}
@@ -190,10 +196,6 @@ const SearchPage = () => {
                   </button>
                 )}
 
-                <h3 className="text-lg font-bold">{produto.nome_produto}</h3>
-                <p>{produto.desc_produto}</p>
-                <p className="text-green-600 font-semibold">R$ {produto.preco_produto}</p>
-                <p className="text-sm text-gray-500">{produto.categoria_produto}</p>
               </motion.div>
             ))
           ) : (

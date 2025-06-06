@@ -61,12 +61,21 @@ const Carrinho = () => {
                 animate={{ opacity: 1, x: 0, scale: 1 }}
                 exit={{ opacity: 0, x: 20, scale: 0.9, transition: { duration: 0.3 } }}
                 layout
-                className="border-b pb-3 flex justify-between items-center"
+                className="border-b pb-3 flex items-center justify-between hover:bg-gray-50 transition"
               >
-                <div>
-                  <p>{item.nome_produto}</p>
+                <Link to={`/produto/${item.id_produto}`} className="flex flex-1 items-center">
+                 {item.img_url && (
+                <img
+                  src={item.img_url}
+                  alt={item.nome_produto}
+                  className="w-20 h-20 object-cover rounded mr-4"
+                />
+                )}
+                <div className="flex flex-col justify-center h-20">
+                  <p className="font-medium">{item.nome_produto}</p>
                   <p className="text-gray-600">R$ {(Number(item.preco_produto)).toFixed(2)}</p>
                 </div>
+                </Link>
 
                 <button
                   onClick={() => handleRemove(item.id_produto)}

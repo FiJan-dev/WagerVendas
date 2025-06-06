@@ -25,11 +25,16 @@ module.exports = (db) => {
     const userId = req.params.userId;
 
     const query = `
-    SELECT p.id_produto, p.nome_produto, p.preco_produto
+      SELECT 
+      p.id_produto,
+      p.nome_produto,
+      p.preco_produto,
+      COALESCE(m.img_url, 'https://i.imgur.com/GOuG18o.jpeg') AS img_url
     FROM pedidos pe
     JOIN produtos p ON pe.id_produto = p.id_produto
+    LEFT JOIN midias m ON p.id_produto = m.id_produto
     WHERE pe.id_usuario = ? AND pe.status_pedido = 'carrinho'
-  `;
+    `;
     db.query(query, [userId], (err, results) => {
       if (err) {
         console.error('Erro ao buscar carrinho:', err);

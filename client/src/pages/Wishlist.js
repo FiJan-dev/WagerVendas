@@ -117,6 +117,7 @@ const Wishlist = () => {
                 layout
                 className="border p-4 rounded shadow relative bg-white"
               >
+                <Link to={`/produto/${produto.id_produto}`} className="block">
                 {produto.img_url && (
                   <img
                     src={produto.img_url}
@@ -125,6 +126,11 @@ const Wishlist = () => {
                   />
                 )}
 
+                  <h3 className="text-lg font-bold">{produto.nome_produto}</h3>
+                  <p className="text-sm mb-1">{produto.desc_produto}</p>
+                  <p className="text-green-600 font-semibold">R$ {produto.preco_produto}</p>
+                  <p className="text-sm text-gray-500">{produto.categoria_produto}</p>
+                  </Link>
                 <button
                   onClick={() => toggleWishlist(produto.id_produto)}
                   title={wishlistMap[produto.id_produto] ? "Remover da lista de desejos" : "Adicionar à lista de desejos"}
@@ -144,10 +150,6 @@ const Wishlist = () => {
                   <FiShoppingCart />
                 </button>
 
-                <h3 className="text-lg font-bold">{produto.nome_produto}</h3>
-                <p className="text-sm mb-1">{produto.desc_produto}</p>
-                <p className="text-green-600 font-semibold">R$ {produto.preco_produto}</p>
-                <p className="text-sm text-gray-500">{produto.categoria_produto}</p>
               </motion.div>
             ))}
           </AnimatePresence>
