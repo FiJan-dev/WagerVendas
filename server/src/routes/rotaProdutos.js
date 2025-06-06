@@ -29,7 +29,15 @@ module.exports = (db) => {
 
   router.get('/produto/:id', (req, res) => {
   const sqlProduto = `SELECT * FROM produtos WHERE id_produto = ?`;
-  const sqlMidias = `SELECT * FROM midias WHERE id_produto = ?`;
+  const sqlMidias = `
+  SELECT
+    id_midia,
+    ordem,
+    COALESCE(img_url, 'https://i.imgur.com/GOuG18o.jpeg') AS img_url,
+    id_produto
+  FROM midias
+  WHERE id_produto = ?
+`;
 
   db.query(sqlProduto, [req.params.id], (err, produto) => {
     if (err) {

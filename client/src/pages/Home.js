@@ -140,6 +140,10 @@ const Home = () => {
                 />
                 
               )}
+              <h3 className="text-lg font-bold">{produto.nome_produto}</h3>
+              <p className="text-sm mb-1">{produto.desc_produto}</p>
+              <p className="text-green-600 font-semibold">R$ {produto.preco_produto}</p>
+              <p className="text-sm text-gray-500">{produto.categoria_produto}</p>
               </Link>
 
               {/* Botão wishlist */}
@@ -183,10 +187,6 @@ const Home = () => {
                 </button>
               )}
 
-              <h3 className="text-lg font-bold">{produto.nome_produto}</h3>
-              <p className="text-sm mb-1">{produto.desc_produto}</p>
-              <p className="text-green-600 font-semibold">R$ {produto.preco_produto}</p>
-              <p className="text-sm text-gray-500">{produto.categoria_produto}</p>
             </motion.div>
           ))}
         </AnimatePresence>

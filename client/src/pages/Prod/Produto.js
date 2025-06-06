@@ -121,7 +121,10 @@ const handleAddToCart = async (produto) => {
       <div className="panel">
         <div className="column">
           <div className="gallery">
-            <img src={produto.midias?.[0]?.img_url} alt={produto.nome_produto} />
+            <img 
+              src={produto.midias?.[0]?.img_url || 'https://i.imgur.com/GOuG18o.jpeg'} 
+              alt={produto.nome_produto} 
+            />
           </div>
         </div>
         <div className="column">
